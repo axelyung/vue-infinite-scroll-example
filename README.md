@@ -1,1 +1,1 @@
-# res-api-node-vue-example
+# rest-api-node-vue-example
