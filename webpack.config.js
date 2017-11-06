@@ -6,17 +6,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
   filename: "[name].[hash].css",
-  disable: process.env.NODE_ENV === "development"
+  disable: false
 });
 
 module.exports = {
   entry: [
-    './src',
-    './sass/main.scss'
+    'babel-polyfill',
+    path.resolve(__dirname, 'src'),
+    path.resolve(__dirname, 'sass/main.scss')
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'build.[hash].js'
+    filename: 'bundle.[hash].js'
   },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
@@ -64,14 +65,14 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: extractSass.extract({
+        use: ['css-hot-loader'].concat(extractSass.extract({
           use: [{
             loader: "css-loader"
           }, {
             loader: "sass-loader"
           }],
           fallback: "style-loader"
-        })
+        }))
       }
     ]
   },
@@ -100,6 +101,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
   ])
 }
