@@ -1,15 +1,14 @@
-
-import Vue from 'vue'
+import 'babel-polyfill';
+import Vue from 'vue';
+import VueMaterial from 'vue-material'
 import App from 'App'
-import VeeValidate from 'vee-validate';
- 
-//import router from './router.js'
 
-Vue.use(VeeValidate);
+Vue.use(VueMaterial.MdCore)
+Vue.use(VueMaterial.MdSpinner)
+Vue.use(VueMaterial.MdButton)
 
 new Vue({
   el: '#app',
-  //router,
   template: '<App/>',
   components: { App },
 })
